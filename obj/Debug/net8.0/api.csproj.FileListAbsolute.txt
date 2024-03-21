@@ -136,3 +136,7 @@ D:\Projects\Web Dev\stock-site\api\bin\Debug\net8.0\runtimes\win\lib\net6.0\Syst
 D:\Projects\Web Dev\stock-site\api\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 D:\Projects\Web Dev\stock-site\api\obj\Debug\net8.0\api.csproj.Up2Date
 D:\Projects\Web Dev\stock-site\api\obj\Debug\net8.0\api.sourcelink.json
+D:\Projects\Web Dev\stock-site\api\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\Projects\Web Dev\stock-site\api\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\Projects\Web Dev\stock-site\api\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\Projects\Web Dev\stock-site\api\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
