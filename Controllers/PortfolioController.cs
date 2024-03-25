@@ -19,13 +19,16 @@ namespace api.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IStockRepository _stockRepo;
 
+        private readonly IFMPService _fmpService;
+
         private readonly IPortfolioRepository _portfolioRepo;
         public PortfolioController(UserManager<AppUser> userManager,
-            IStockRepository stockRepo, IPortfolioRepository portfolioRepo)
+            IStockRepository stockRepo, IPortfolioRepository portfolioRepo, IFMPService fMPService)
         {
             _userManager = userManager;
             _stockRepo = stockRepo;
             _portfolioRepo = portfolioRepo;
+            _fmpService = fMPService;
         }
 
         [HttpGet]
@@ -46,6 +49,19 @@ namespace api.Controllers
             var appUser = await _userManager.FindByNameAsync(username);
 
             var stock = await _stockRepo.GetBySymbolAsync(symbol);
+
+            if (stock == null)
+            {
+                stock = await _fmpService.FindStockBySymbolAsync(symbol);
+                if (stock == null)
+                {
+                    return BadRequest("Stock does not exist");
+                }
+                else
+                {
+                    await _stockRepo.CreateAsync(stock);
+                }
+            }
 
             if (stock == null)
             {
@@ -77,6 +93,29 @@ namespace api.Controllers
             }
 
 
+        }
+
+        [HttpDelete]
+        [Authorize]
+        public async Task<IActionResult> DeletePortfolio(string symbol)
+        {
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
+
+            var userPortfolio = await _portfolioRepo.GetUserPortfolio(appUser);
+
+            var filteredStock = userPortfolio.Where(s => s.Symbol.ToLower() == symbol.ToLower()).ToList();
+
+            if (filteredStock.Count() == 1)
+            {
+                await _portfolioRepo.DeletePortfolio(appUser, symbol);
+            }
+            else
+            {
+                return BadRequest("Stock is not in your portfolio");
+            }
+
+            return Ok();
         }
 
 

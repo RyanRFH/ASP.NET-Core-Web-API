@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace api.Models
 {
-    //IdentityUser proves default user model
+    //IdentityUser provides default user model
     public class AppUser : IdentityUser
-
     {
         public List<Portfolio> Portfolios { get; set; } = new List<Portfolio>();
     }
